@@ -1,183 +1,570 @@
-# NumLab — Numerical & Stats Toolkit
+# 🔢 NumLab — Numerical & Stats Toolkit
 
-A small numerical and statistics toolkit built on **NumPy**: array creation, descriptive
-statistics implemented twice (a pure-Python loop *and* the vectorized NumPy call),
-broadcasting-based transforms, linear algebra, and a Monte Carlo simulation of π.
+> **A hands-on NumPy toolkit for numerical computing, statistics, linear algebra, vectorization, and simulation.**
 
-Every "manual" implementation is unit-tested against its NumPy counterpart, so the
-library doubles as a demonstration that the vectorized version computes the same
-thing — thousands of times faster.
+NumLab is a small numerical and statistics toolkit built with **NumPy**.
 
-```
+It demonstrates how common mathematical operations can be implemented in two ways:
+
+* 🐍 **Manual** — pure Python loops
+* ⚡ **Vectorized** — NumPy operations
+
+Every manual implementation is **unit-tested against its NumPy counterpart**, making the project both a reusable toolkit and a practical demonstration of why vectorization matters.
+
+<p align="center">
+
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=for-the-badge\&logo=python\&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-2.x-013243?style=for-the-badge\&logo=numpy\&logoColor=white)
+![Tests](https://img.shields.io/badge/tests-103-success?style=for-the-badge\&logo=pytest\&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-yellow?style=for-the-badge)
+
+</p>
+
+---
+
+## ⚡ Performance at a Glance
+
+The same mathematical operation can have dramatically different performance depending on how it is expressed.
+
+```text
 python loop        92.185 ms
-numpy vectorized    4.577 ms     ->  20x
+numpy vectorized    4.577 ms     → 20× faster
 
 matmul (triple loop)  2471.443 ms
-matmul (BLAS)            0.452 ms  ->  5463x
+matmul (BLAS)            0.452 ms → 5463× faster
 ```
 
----
-
-## What it demonstrates
-
-| Concept | Where to look |
-| --- | --- |
-| Array thinking — no Python loops over data | `zscore`, `moving_average`, `softmax` |
-| Broadcasting | `pairwise_distances` — an `(n, m)` distance matrix from `(n,1,d)` vs `(1,m,d)` |
-| Manual vs vectorized correctness | `mean_manual` / `mean`, `matmul_manual` / `matmul`, plus `tests/` |
-| Linear algebra in code | `solve`, `inverse`, `eigen`, `least_squares`, `project_onto` |
-| Reproducible randomness | every random helper takes a `seed` and uses `np.random.default_rng` |
-| Monte Carlo simulation | `monte_carlo_pi`, `random_walk`, `bootstrap_ci` |
-| Vectorization pay-off | `compare_loop_vs_numpy`, `time_callable` |
+> 💡 **Core lesson:** express operations on whole arrays and let optimized numerical libraries handle the computation.
 
 ---
 
-## Features
+## 🧠 What This Project Demonstrates
 
-**Array creation** — `arange`, `linspace`, `zeros`, `ones`, `full`, `identity`,
-`random_uniform`, `random_normal`, `random_integers`, and `sample_distribution` for
-six distributions (normal, uniform, exponential, poisson, binomial, lognormal).
-
-**Descriptive statistics** — `mean`, `median`, `variance`, `std`, `percentile`, each
-with a `*_manual` pure-Python twin, plus `describe()` returning a `Summary` dataclass
-(count, mean, median, std, variance, min/max, quartiles, IQR, range).
-
-**Vectorized operations** — `zscore`, `minmax_scale`, `moving_average`, `softmax`
-(numerically stable), `pairwise_distances`, `outlier_mask` / `drop_outliers`.
-
-**Linear algebra** — `dot`, `matmul` (both with manual loop versions), `transpose`,
-`matrix_power`, `trace`, `determinant`, `inverse`, `solve`, `least_squares`, `eigen`,
-`norm`, `normalize_vector`, `angle_between`, `project_onto`, `is_orthogonal`.
-
-**Simulations** — `monte_carlo_pi` (returns a `PiEstimate` with absolute and relative
-error), `random_walk` (many independent walks via one `cumsum`), `bootstrap_ci`
-(percentile confidence intervals, all resamples drawn as one index matrix).
-
-**Utilities** — `time_callable` / `compare_loop_vs_numpy` for benchmarking, and
-`save_array` / `load_array` / `save_arrays` / `load_arrays` for `.npy` and `.npz`.
+| Concept                             | Where to look                                                |
+| ----------------------------------- | ------------------------------------------------------------ |
+| ⚡ Array thinking                    | `zscore`, `moving_average`, `softmax`                        |
+| 📡 Broadcasting                     | `pairwise_distances`                                         |
+| 🔬 Manual vs vectorized correctness | `mean_manual` / `mean`, `matmul_manual` / `matmul`           |
+| 📐 Linear algebra                   | `solve`, `inverse`, `eigen`, `least_squares`, `project_onto` |
+| 🎲 Reproducible randomness          | `seed` + `np.random.default_rng`                             |
+| 🎯 Monte Carlo methods              | `monte_carlo_pi`, `random_walk`, `bootstrap_ci`              |
+| ⏱️ Benchmarking                     | `compare_loop_vs_numpy`, `time_callable`                     |
 
 ---
 
-## Installation
+## ✨ Features
+
+### 📦 Array Creation
+
+Create arrays using NumPy-based helpers:
+
+* `arange`
+* `linspace`
+* `zeros`
+* `ones`
+* `full`
+* `identity`
+* `random_uniform`
+* `random_normal`
+* `random_integers`
+* `sample_distribution`
+
+`sample_distribution` supports:
+
+* Normal
+* Uniform
+* Exponential
+* Poisson
+* Binomial
+* Lognormal
+
+---
+
+### 📊 Descriptive Statistics
+
+Standard statistical operations are implemented both manually and with NumPy:
+
+* `mean`
+* `median`
+* `variance`
+* `std`
+* `percentile`
+
+Each has a corresponding pure-Python implementation:
+
+```text
+mean_manual
+median_manual
+variance_manual
+std_manual
+percentile_manual
+```
+
+The `describe()` function returns a structured `Summary` dataclass containing:
+
+* Count
+* Mean
+* Median
+* Standard deviation
+* Variance
+* Minimum / maximum
+* Quartiles
+* IQR
+* Range
+
+---
+
+### ⚡ Vectorized Operations
+
+NumPy-based transformations designed to avoid Python loops:
+
+```text
+zscore
+minmax_scale
+moving_average
+softmax
+pairwise_distances
+outlier_mask
+drop_outliers
+```
+
+The `pairwise_distances` implementation is a practical example of **broadcasting**, producing an `(n, m)` distance matrix from arrays shaped `(n, 1, d)` and `(1, m, d)`.
+
+---
+
+### 📐 Linear Algebra
+
+NumLab includes common linear algebra operations:
+
+```text
+dot
+matmul
+transpose
+matrix_power
+trace
+determinant
+inverse
+solve
+least_squares
+eigen
+norm
+normalize_vector
+angle_between
+project_onto
+is_orthogonal
+```
+
+`matmul` is available in both forms:
+
+```text
+matmul_manual
+matmul
+```
+
+This makes the performance difference between a Python triple loop and optimized numerical routines directly measurable.
+
+---
+
+### 🎲 Simulations
+
+NumLab also demonstrates vectorized simulation techniques:
+
+#### π estimation
+
+`monte_carlo_pi` estimates π using random points and returns a `PiEstimate` containing:
+
+* Estimated π
+* Absolute error
+* Relative error
+
+#### Random walk
+
+`random_walk` generates many independent walks using a single vectorized `cumsum`.
+
+#### Bootstrap confidence intervals
+
+`bootstrap_ci` calculates percentile confidence intervals while generating all resample indices as one matrix rather than looping over individual samples.
+
+---
+
+### ⏱️ Benchmarking
+
+Two utilities make performance comparisons easy:
+
+```text
+time_callable
+compare_loop_vs_numpy
+```
+
+They allow direct comparison between manual Python implementations and NumPy's optimized implementations.
+
+---
+
+## 🚀 Installation
+
+Clone the repository:
 
 ```bash
 git clone https://github.com/<your-username>/numlab.git
 cd numlab
+```
+
+Create a virtual environment:
+
+```bash
 python -m venv .venv
-source .venv/bin/activate      # Windows: .venv\Scripts\activate
+```
+
+Activate it:
+
+### Windows
+
+```bash
+.venv\Scripts\activate
+```
+
+### Linux / macOS
+
+```bash
+source .venv/bin/activate
+```
+
+Install dependencies:
+
+```bash
 pip install -r requirements.txt
 ```
 
-Only `numpy` is required to use the toolkit; `pytest`, `jupyter` and `matplotlib`
-are for the tests and the notebook.
+### Dependencies
 
-## Usage
+Only **NumPy** is required to use the toolkit.
 
-### Command line
+Additional packages such as `pytest`, `jupyter`, and `matplotlib` are used for testing and visualization.
+
+---
+
+## 🖥️ Usage
+
+### Command Line
+
+Run the complete demonstration:
 
 ```bash
-python src/main.py demo                  # run every section end to end
-python src/main.py arrays                # array-creation showcase
-python src/main.py stats  --size 1000    # manual vs NumPy statistics table
-python src/main.py vector                # vectorized ops & broadcasting
-python src/main.py matrix --size 4       # linear algebra
-python src/main.py pi     --samples 2000000
-python src/main.py bench  --size 2000000 # loop vs NumPy timings
-python src/main.py io     --path data/demo
-python src/main.py --seed 7 stats        # any section, different seed
+python src/main.py demo
 ```
 
-### As a library
+Run individual sections:
+
+```bash
+python src/main.py arrays
+python src/main.py stats --size 1000
+python src/main.py vector
+python src/main.py matrix --size 4
+python src/main.py pi --samples 2000000
+python src/main.py bench --size 2000000
+python src/main.py io --path data/demo
+```
+
+Use a custom random seed:
+
+```bash
+python src/main.py --seed 7 stats
+```
+
+---
+
+## 🐍 As a Python Library
 
 ```python
-import sys; sys.path.insert(0, "src")
+import sys
+sys.path.insert(0, "src")
+
 import toolkit as tk
 
-data = tk.random_normal(1_000, loc=10, scale=2.5, seed=42)
+# Generate data
+data = tk.random_normal(
+    1_000,
+    loc=10,
+    scale=2.5,
+    seed=42
+)
 
-print(tk.describe(data))                    # full summary
-print(tk.mean_manual(data), tk.mean(data))  # identical to ~1e-15
+# Descriptive statistics
+print(tk.describe(data))
 
-tk.zscore(data)                             # standardise
-tk.moving_average(data, window=20)          # smooth
-tk.drop_outliers(data, threshold=3.0)       # clean
+# Manual vs NumPy implementation
+print(tk.mean_manual(data))
+print(tk.mean(data))
 
+# Vectorized transformations
+tk.zscore(data)
+tk.moving_average(data, window=20)
+tk.drop_outliers(data, threshold=3.0)
+
+# Linear algebra
 A = tk.random_normal((3, 3), seed=1)
-x = tk.solve(A, [1.0, 1.0, 1.0])            # A x = b, no explicit inverse
-tk.norm(A @ x - 1.0)                        # ~1e-15 residual
+x = tk.solve(A, [1.0, 1.0, 1.0])
 
-print(tk.monte_carlo_pi(1_000_000, seed=0)) # pi ~= 3.1416
-print(tk.bootstrap_ci(data, seed=0))        # 95% CI for the mean
+# Check residual
+print(tk.norm(A @ x - 1.0))
+
+# Monte Carlo π
+print(tk.monte_carlo_pi(1_000_000, seed=0))
+
+# Bootstrap confidence interval
+print(tk.bootstrap_ci(data, seed=0))
 ```
 
-## Notebook
+---
 
-[`notebooks/demo.ipynb`](notebooks/demo.ipynb) is the visual walkthrough: distribution
-histograms, a convergence plot of the Monte Carlo estimate against `1/sqrt(n)`, random
-walk trajectories with the `±sqrt(n)` envelope, a broadcasting heatmap, and the
-loop-vs-NumPy timing chart.
+## 📓 Notebook
+
+The project includes a visual walkthrough:
+
+**[`notebooks/demo.ipynb`](notebooks/demo.ipynb)**
+
+The notebook demonstrates:
+
+* 📈 Distribution histograms
+* 🎯 Monte Carlo π convergence
+* 📉 The `1 / sqrt(n)` convergence relationship
+* 🚶 Random walk trajectories
+* 📐 The `±sqrt(n)` envelope
+* 🔥 Broadcasting heatmaps
+* ⚡ Loop vs NumPy performance
+
+Run it with:
 
 ```bash
 jupyter notebook notebooks/demo.ipynb
 ```
 
-## Tests
+---
+
+## 🧪 Tests
+
+Run the complete test suite:
 
 ```bash
-pytest tests -q          # 103 tests
+pytest tests -q
 ```
 
-The suite checks three things: that each manual implementation agrees with NumPy, that
-statistical results match theory (a 400-step random walk has spread `sqrt(400)`, a
-95% bootstrap CI brackets the true mean, `softmax` sums to 1), and that invalid input
-raises a clear `ValueError` rather than producing `nan`.
+Current test suite:
 
-## Performance notes
-
-Measured on 500,000 elements / 120×120 matrices, best of three runs:
-
-| Operation | Python loop | NumPy | Speed-up |
-| --- | ---: | ---: | ---: |
-| Sum of squares (500k) | 92.2 ms | 4.6 ms | **20×** |
-| Matrix multiply (120×120) | 2471 ms | 0.45 ms | **5463×** |
-
-Two different effects are on display. The 20× comes from removing the interpreter from
-the inner loop — the same arithmetic, executed in compiled code over a contiguous
-buffer instead of over boxed Python floats. The 5463× is larger because `@` does not
-just avoid the interpreter, it dispatches to BLAS, which blocks the computation for
-cache reuse and uses SIMD instructions. The lesson is the one that carries over to
-machine learning: *express the operation on whole arrays and let the library pick the
-implementation.*
-
-Two smaller habits the code follows for the same reason:
-
-- **`solve(A, b)` rather than `inverse(A) @ b`** — an LU factorisation is faster than
-  forming an explicit inverse and numerically better behaved.
-- **Draw all randomness at once** — `monte_carlo_pi` samples an `(n, 2)` array and
-  tests it with one comparison; `bootstrap_ci` builds a whole `(resamples, n)` index
-  matrix instead of looping over resamples.
-
-## Project structure
-
+```text
+103 tests
 ```
+
+The tests verify three major areas:
+
+### 1. Manual vs NumPy correctness
+
+Manual implementations are compared against NumPy equivalents.
+
+### 2. Statistical correctness
+
+Examples include:
+
+* A 400-step random walk has spread approximately `sqrt(400)`
+* A 95% bootstrap confidence interval brackets the true mean
+* `softmax` outputs sum to `1`
+
+### 3. Input validation
+
+Invalid input should raise a clear `ValueError` instead of silently producing invalid values such as `nan`.
+
+---
+
+## ⚡ Performance Notes
+
+Measurements on **500,000 elements** and **120 × 120 matrices**, using the best of three runs:
+
+| Operation                       | Python Loop |   NumPy |  Speed-up |
+| ------------------------------- | ----------: | ------: | --------: |
+| Sum of squares — 500k           |     92.2 ms |  4.6 ms |   **20×** |
+| Matrix multiplication — 120×120 |     2471 ms | 0.45 ms | **5463×** |
+
+### Why is NumPy faster?
+
+The **20× improvement** comes mainly from removing the Python interpreter from the inner loop.
+
+Instead of repeatedly operating on Python objects:
+
+```text
+Python → Python → Python → Python → ...
+```
+
+NumPy performs the operation in optimized compiled code over contiguous numerical arrays.
+
+The matrix multiplication result is even more dramatic.
+
+`@` can dispatch the computation to **BLAS**, which can take advantage of:
+
+* Cache-aware blocking
+* SIMD instructions
+* Highly optimized compiled routines
+* Hardware-level parallelism
+
+This is why the matrix multiplication benchmark reaches a difference of roughly **5463×** in this particular environment.
+
+> ⚠️ Benchmark numbers depend heavily on hardware, NumPy version, BLAS backend, array sizes, and system load. They should be treated as illustrative rather than universal.
+
+---
+
+## 🧮 Two Important Numerical Computing Habits
+
+### `solve(A, b)` instead of `inverse(A) @ b`
+
+When solving:
+
+```text
+Ax = b
+```
+
+prefer:
+
+```python
+x = solve(A, b)
+```
+
+rather than:
+
+```python
+x = inverse(A) @ b
+```
+
+Computing the inverse explicitly is generally unnecessary. A factorization-based solver is typically faster and numerically preferable.
+
+---
+
+### 🎲 Vectorize Randomness Too
+
+NumLab avoids repeatedly generating individual random values inside Python loops.
+
+For example, `monte_carlo_pi` generates an entire `(n, 2)` array of random points and performs the calculation with a single vectorized operation.
+
+Similarly, `bootstrap_ci` generates the complete resampling index matrix instead of iterating over every bootstrap sample.
+
+The general principle is:
+
+> **Move work out of Python loops and into optimized array operations whenever possible.**
+
+---
+
+## 📁 Project Structure
+
+```text
 numlab/
+│
 ├── src/
-│   ├── main.py            # CLI demo (argparse subcommands)
-│   └── toolkit.py         # the library
+│   ├── main.py
+│   │   └── CLI demo using argparse
+│   │
+│   └── toolkit.py
+│       └── Numerical & statistics library
+│
 ├── notebooks/
-│   └── demo.ipynb         # visual walkthrough
+│   └── demo.ipynb
+│       └── Visual walkthrough
+│
 ├── tests/
-│   ├── conftest.py        # puts src/ on sys.path
+│   ├── conftest.py
 │   ├── test_arrays.py
 │   ├── test_stats.py
 │   ├── test_vectorized.py
 │   ├── test_linalg.py
 │   └── test_simulation.py
+│
 ├── README.md
 ├── requirements.txt
 └── .gitignore
 ```
 
-## License
+---
 
-MIT
+## 🎯 Why NumLab?
+
+NumLab is intentionally more than a collection of NumPy wrappers.
+
+The project is designed to make several important ideas in **scientific computing and machine learning** concrete:
+
+```text
+Mathematics
+    ↓
+Python implementation
+    ↓
+NumPy vectorization
+    ↓
+Correctness testing
+    ↓
+Performance benchmarking
+    ↓
+Numerical computing mindset
+```
+
+It connects mathematical concepts such as:
+
+* Statistics
+* Probability
+* Linear algebra
+* Random processes
+* Numerical methods
+
+with practical programming concepts such as:
+
+* Vectorization
+* Broadcasting
+* Array operations
+* Numerical stability
+* Testing
+* Benchmarking
+* Reproducibility
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology         | Purpose                    |
+| ------------------ | -------------------------- |
+| 🐍 Python          | Core language              |
+| 🔢 NumPy           | Numerical computing        |
+| 🧪 Pytest          | Testing                    |
+| 📓 Jupyter         | Interactive demonstrations |
+| 📊 Matplotlib      | Visualization              |
+| 📦 `.npy` / `.npz` | Array persistence          |
+
+---
+
+## 📌 Learning Goals
+
+This project was built to strengthen practical understanding of:
+
+* NumPy arrays
+* Vectorization
+* Broadcasting
+* Descriptive statistics
+* Probability simulations
+* Linear algebra
+* Numerical stability
+* Performance optimization
+* Unit testing
+* Reproducible experiments
+
+These are foundational concepts for **data science, scientific computing, and machine learning**.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License**.
+
+---
+
+<p align="center">
+
+**NumLab** — Learn the mathematics.
+**Implement it manually.**
+**Vectorize it.**
+**Measure the difference.**
+
+</p>

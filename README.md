@@ -169,7 +169,7 @@ This makes the performance difference between a Python triple loop and optimized
 
 NumLab also demonstrates vectorized simulation techniques:
 
-#### π estimation
+#### π estimation 
 
 `monte_carlo_pi` estimates π using random points and returns a `PiEstimate` containing:
 

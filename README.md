@@ -38,7 +38,7 @@ matmul (BLAS)            0.452 ms → 5463× faster
 
 ---
 
-## 🧠 What This Project Demonstrates
+## 🧠 What This Project Demonstrates 
 
 | Concept                             | Where to look                                                |
 | ----------------------------------- | ------------------------------------------------------------ |

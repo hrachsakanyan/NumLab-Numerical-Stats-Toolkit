@@ -22,7 +22,7 @@ Every manual implementation is **unit-tested against its NumPy counterpart**, ma
 
 ---
 
-## ⚡ Performance at a Glance 
+## ⚡ Performance at a Glance
 
 The same mathematical operation can have dramatically different performance depending on how it is expressed.
 

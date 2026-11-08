@@ -1,4 +1,4 @@
-# 🔢 NumLab — Numerical & Stats Toolkit
+# 🔢 NumLab — Numerical & Stats Toolkit 
 
 > **A hands-on NumPy toolkit for numerical computing, statistics, linear algebra, vectorization, and simulation.**
 
